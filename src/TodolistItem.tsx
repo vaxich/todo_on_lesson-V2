@@ -1,15 +1,16 @@
-import { TaskType } from "./App"
+import { FilterValueType, TaskType } from "./App"
 import { Button } from "./Button"
 
 type TodolistItemPropsType = {
     title: string
     tasks: TaskType[]
-    date?: string
+    deleteTask: (taskId: string) => void
+    changeFilter: (newValueFilter: FilterValueType) => void
 }
 
 export const TodolistItem = (props: TodolistItemPropsType) => {
 
-    const { title, tasks } = props
+    const { title, tasks , deleteTask , changeFilter} = props
 
     return (
         <div>
@@ -28,6 +29,7 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
                             return (
                                 <li key={task.id}>
                                     <input type="checkbox" checked={task.isDone} /> <span>{task.title}</span>
+                                    <Button title = "X" onClick={ () => deleteTask(task.id)}/>
                                 </li>
                             )
                         })}
@@ -36,12 +38,12 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
                 )}
 
             <div>
-                <Button title = {"All"}/>
-                <Button title = {"Active"}/>
-                <Button title = {"Complited"}/>
+                <Button title = {"All"} onClick={ () => changeFilter("All")}/>
+                <Button title = {"Active"} onClick={ () => changeFilter("Active")}/>
+                <Button title = {"Completed"} onClick={ () => changeFilter("Completed")} />
                 
             </div>
-            <div>{props.date}</div>
+            
         </div>
     )
 }
