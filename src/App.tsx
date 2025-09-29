@@ -39,6 +39,11 @@ const App = () => {
     const filteredTasks = tasks.filter((task) => task.id !== taskId)
     setTasks(filteredTasks)
   }
+
+  const createTask = (newTaskTitle: string) => {
+    const newTask = {id: crypto.randomUUID() , title: newTaskTitle , isDone: false}
+    setTasks([newTask , ...tasks])
+  }
   const changeFilter = (newValueFilter: FilterValueType) => {
     setFilter(newValueFilter);
     
@@ -46,7 +51,13 @@ const App = () => {
 
   return (
     <div className="App">
-      <TodolistItem title="what to learn" tasks={filteredTasks} deleteTask={deleteTask} changeFilter = {changeFilter} />
+      <TodolistItem 
+      title="what to learn" 
+      tasks={filteredTasks} 
+      deleteTask={deleteTask} 
+      changeFilter = {changeFilter} 
+      createTask= {createTask}
+      />
 
 
     </div>
