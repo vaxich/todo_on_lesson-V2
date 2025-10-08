@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import './App.css';
 import { TodolistItem } from './TodolistItem';
-import { log } from 'node:console';
 
 
 export type TaskType = {
@@ -40,23 +39,30 @@ const App = () => {
     setTasks(filteredTasks)
   }
 
+  const changeTaskStatus = (taskId: string, isDone: boolean) => {
+    const newState = tasks.map(task => task.id === taskId ? { ...task, isDone: isDone } : task)
+    setTasks(newState)
+  }
+
   const createTask = (newTaskTitle: string) => {
-    const newTask = {id: crypto.randomUUID() , title: newTaskTitle , isDone: false}
-    setTasks([newTask , ...tasks])
+    const newTask = { id: crypto.randomUUID(), title: newTaskTitle, isDone: false }
+    setTasks([newTask, ...tasks])
   }
   const changeFilter = (newValueFilter: FilterValueType) => {
     setFilter(newValueFilter);
-    
+
   }
 
   return (
     <div className="App">
-      <TodolistItem 
-      title="what to learn" 
-      tasks={filteredTasks} 
-      deleteTask={deleteTask} 
-      changeFilter = {changeFilter} 
-      createTask= {createTask}
+      <TodolistItem
+        title="what to learn"
+        tasks={filteredTasks}
+        filter={filter}
+        deleteTask={deleteTask}
+        changeFilter={changeFilter}
+        createTask={createTask}
+        changeTaskStatus={changeTaskStatus}
       />
 
 
