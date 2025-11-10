@@ -4,8 +4,7 @@ import { FilterValueType, TaskType } from "./App"
 import { AddItemForm } from "./AddItemForm"
 import { EditableSpan } from "./EditableSpan"
 import Button from "@mui/material/Button"
-import Icon from "@mui/material/Icon"
-import Stack from "@mui/material/Stack"
+
 import IconButton from "@mui/material/IconButton"
 
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -17,7 +16,7 @@ type TodolistItemPropsType = {
     todolistId: string
     tasks: TaskType[]
     filter: FilterValueType
-    deleteTask: (todolistId: string, taskId: string) => void
+    removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, newValueFilter: FilterValueType) => void
     createTask: (todolistId: string, newTaskTitle: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
@@ -28,34 +27,13 @@ type TodolistItemPropsType = {
 
 export const TodolistItem = (props: TodolistItemPropsType) => {
 
-    const { title, tasks, filter, deleteTask, changeFilter, createTask, changeTaskStatus, todolistId, deteteTodolist, changeTaskTitle, changeTodolisTitle } = props;
+    const { title, tasks , filter, removeTask, changeFilter, createTask, changeTaskStatus, todolistId, deteteTodolist, changeTaskTitle, changeTodolisTitle } = props;
+console.log(tasks);
 
-    // const [newTaskTitle, setNewTaskTitle] = useState('');
-
-    // const [error, setError] = useState<string | null>(null);
-
-    // const createTaskHandler = () => {
-    //     const trimmedTitle = newTaskTitle.trim()
-    //     if (trimmedTitle.trim() !== "") {
-    //         createTask(todolistId, trimmedTitle)
-    //         setNewTaskTitle('')
-    //     } else {
-    //         setError('Title is required')
-    //     }
-
-    // }
     const changeFilterHandler = (filter: FilterValueType) => {
         changeFilter(todolistId, filter)
     }
-    // const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    //     setNewTaskTitle(event.currentTarget.value)
-    //     setError(null)
-    // }
-    // const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    //     if (event.key === "Enter") {
-    //         createTaskHandler()
-    //     }
-    // }
+    
 
     const deleteTodolistHandler = () => {
         deteteTodolist(todolistId)
@@ -81,27 +59,17 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
     return (
         <div>
             <div className="container">
-                {/* <h3>{title}</h3> */}
+                
                 <EditableSpan value={title} onChange={changeTodolistTitleHandler} />
-                {/* <Button title="X" onClick={deleteTodolistHandler} /> */}
+               
                 <IconButton onClick={deleteTodolistHandler}>
                     <DeleteIcon />
                 </IconButton>
             </div>
 
-            <AddItemForm onClick={addTaskHandler} />
-            {/* <div >
-                <input
-                    className={error ? 'error' : ''}
-                    value={newTaskTitle}
-                    onChange={changeTaskTitleHandler}
-                    onKeyDown={createTaskOnEnterHandler}
-                />
-                <Button
-                    title={"+"}
-                    onClick={createTaskHandler} />
-            </div> */}
-            {/* {error && <div className={'error-message'}>{error}</div>} */}
+            <AddItemForm onClick={addTaskHandler} /> 
+            {/* Uncaught TypeError: Cannot read properties of undefined (reading 'length')
+    at TodolistItem (TodolistItem.tsx:70:1) */}
             {tasks.length === 0 ?
                 (<p>тасок нет</p>)
                 :
@@ -110,7 +78,7 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
                         {tasks.map(task => {
 
                             const deleteTaskHandler = () => {
-                                deleteTask(todolistId, task.id)
+                                removeTask(todolistId, task.id)
                             }
 
                             const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -124,11 +92,11 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
 
                             return (
                                 <li key={task.id} className={task.isDone ? 'is-done' : ''}>
-                                    {/* <input type="checkbox" checked={task.isDone} onChange={changeTaskStatusHandler} /> */}
+                                    
                                     <Checkbox checked={task.isDone} onChange={changeTaskStatusHandler}/>
-                                    {/* <span>{task.title}</span> */}
+                                    
                                     <EditableSpan value={task.title} onChange={changeTaskTitleHandler} />
-                                    {/* <Button title="X" onClick={deleteTaskHandler} /> */}
+                                    
                                     <IconButton onClick={deleteTaskHandler}>
                                         <DeleteIcon />
                                     </IconButton>
@@ -140,10 +108,7 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
                     </ul>
                 )}
 
-            <div>
-                {/* <Button className={filter === 'All' ? 'active-filter' : ''} title={"All"} onClick={onAllFilterHandler} />
-                <Button className={filter === 'Active' ? 'active-filter' : ''} title={"Active"} onClick={onActiveFilterHandler} />
-                <Button className={filter === 'Completed' ? 'active-filter' : ''} title={"Completed"} onClick={onCompletedFilterHandler} /> */}
+            <div>               
                 <Button variant={filter === 'All' ? 'contained' : 'outlined'} color="primary" onClick={onAllFilterHandler}>All</Button>
                 <Button variant={filter === 'Active' ? 'contained' : 'outlined'} color="success" onClick={onActiveFilterHandler}>Active</Button>
                 <Button variant={filter === 'Completed' ? 'contained' : 'outlined'} color="error" onClick={onCompletedFilterHandler}>Completed</Button>
